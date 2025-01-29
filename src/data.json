@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "username": "henry",
+            "password": "123",
+            "role": "admin"
+        },
+        {
+            "username": "jaiden",
+            "password": "123",
+            "role": "customer"
+        }
+    ],
+    "cars": [
+        {
+            "car_id": "c1d37d18-4b8c-4ea0-966d-09fc5f668418",
+            "make": "japan",
+            "model": "nissan note",
+            "year": "2010",
+            "mileage": "11",
+            "available": true,
+            "min_rent_period": 10,
+            "max_rent_period": 50
+        }
+    ],
+    "bookings": [
+        {
+            "booking_id": "161450ed-a5e9-498d-bdb5-763f64c3ab11",
+            "customer_username": "jaiden",
+            "car_id": "c1d37d18-4b8c-4ea0-966d-09fc5f668418",
+            "start_date": "2025-04-11",
+            "end_date": "2025-04-30",
+            "status": "Pending"
+        }
+    ]
+}
