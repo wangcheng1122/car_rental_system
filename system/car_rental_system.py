@@ -1,4 +1,3 @@
-# system/car_rental_system.py
 import uuid
 import datetime
 from models.user import User
@@ -7,6 +6,7 @@ from models.booking import Booking
 from database.database_manager import DatabaseManager
 
 class CarRentalSystem:
+
     def __init__(self):
         self.users = []
         self.cars = []
@@ -145,7 +145,7 @@ class CarRentalSystem:
             if booking.status == "Pending":
                 print(booking)
 
-        booking_id = input("Enter booking ID to approve or reject (or 'skip' to skip): ")
+        booking_id = input("Enter booking ID to approve or reject (or 'skip' to skip) (It's recommended to copy and paste the ID): ")
         if booking_id.lower() == "skip":
             return
 
@@ -213,12 +213,12 @@ class CarRentalSystem:
                 if choice == '1':
                     self.view_available_cars()
                 elif choice == '2':
-                    car_id = input("Enter car ID to book: ")
+                    car_id = input("Enter car ID to book (It's recommended to copy and paste the ID): ")
                     start_date = input("Enter start date (YYYY-MM-DD): ")
                     end_date = input("Enter end date (YYYY-MM-DD): ")
                     self.book_car(user, car_id, start_date, end_date)
                 elif choice == '3':
-                    car_id = input("Enter car ID to calculate fee: ")
+                    car_id = input("Enter car ID to calculate fee (It's recommended to copy and paste the ID): ")
                     start_date = input("Enter start date (YYYY-MM-DD): ")
                     end_date = input("Enter end date (YYYY-MM-DD): ")
                     fee = self.calculate_rental_fee(car_id, start_date, end_date)
@@ -249,7 +249,7 @@ class CarRentalSystem:
                     self.add_car(make, model, year, mileage, min_rent_period, max_rent_period)
 
                 elif choice == '2':
-                    car_id = input("Enter car ID to update: ")
+                    car_id = input("Enter car ID to update (It's recommended to copy and paste the ID): ")
                     make = input("Enter new make (or press Enter to skip): ")
                     model = input("Enter new model (or press Enter to skip): ")
                     year = input("Enter new year (or press Enter to skip): ")
@@ -262,7 +262,7 @@ class CarRentalSystem:
                                     min_rent_period or None, max_rent_period or None)
 
                 elif choice == '3':
-                    car_id = input("Enter car ID to delete: ")
+                    car_id = input("Enter car ID to delete (It's recommended to copy and paste the ID): ")
                     self.delete_car(car_id)
 
                 elif choice == '4':
