@@ -142,9 +142,14 @@ class CarRentalSystem:
         Args:
             car_id: 要删除的车辆ID
         """
-        self.cars = [car for car in self.cars if car.car_id != car_id]
-        self.save_data()
-        print("Car deleted successfully.")
+        # 检查车辆是否存在
+        car_to_delete = next((car for car in self.cars if car.car_id == car_id), None)
+        if car_to_delete:
+            self.cars = [car for car in self.cars if car.car_id != car_id]
+            self.save_data()
+            print("Car deleted successfully.")
+        else:
+            print("Car not found.")
 
     def view_available_cars(self):
         """
@@ -293,6 +298,17 @@ class CarRentalSystem:
         ]
         return recommended_cars
 
+    def view_all_cars(self):
+        """
+        查看所有车辆，包括可用和不可用的。
+        """
+        if self.cars:
+            print("All Cars:")
+            for car in self.cars:
+                print(car)
+        else:
+            print("No cars found.")
+
     def run(self):
         """
         运行汽车租赁系统的主循环。
@@ -397,6 +413,7 @@ class CarRentalSystem:
                 print("2. Update Car")
                 print("3. Delete Car")
                 print("4. Manage Bookings")
+                print("5. View All Cars")  # 添加查看所有车辆的选项
                 print("0. Logout")
 
                 choice = input("Enter your choice: ")
@@ -405,7 +422,7 @@ class CarRentalSystem:
                     make = input("Enter car make: ")
                     model = input("Enter car model: ")
                     year = input("Enter car year: ")
-                    mileage = input("Enter car mileage: ")
+                    mileage = input("Enter car mileage (km): ")
                     min_rent_period = int(input("Enter minimum rent period (days): "))
                     max_rent_period = int(input("Enter maximum rent period (days): "))
                     self.add_car(make, model, year, mileage, min_rent_period, max_rent_period)
@@ -429,6 +446,9 @@ class CarRentalSystem:
 
                 elif choice == '4':
                     self.manage_bookings()
+
+                elif choice == '5':  # 处理查看所有车辆的选项
+                    self.view_all_cars()
 
                 elif choice == '0':
                     print("Logging out.")
