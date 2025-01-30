@@ -176,6 +176,24 @@ class CarRentalSystem:
             print("Invalid action.")
         self.save_data()
 
+    def recommend_cars(self, year, mileage, start_date_str, end_date_str):
+        try:
+            start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d").date()
+            end_date = datetime.datetime.strptime(end_date_str, "%Y-%m-%d").date()
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD.")
+            return []
+
+        rental_days = (end_date - start_date).days
+        recommended_cars = [
+            car for car in self.cars
+            if car.available and
+               (year is None or car.year == int(year)) and
+               (mileage is None or car.mileage <= int(mileage)) and
+               rental_days >= car.min_rent_period and rental_days <= car.max_rent_period
+        ]
+        return recommended_cars
+
     def run(self):
         try:
             while True:
@@ -218,6 +236,7 @@ class CarRentalSystem:
                 print("1. View Available Cars")
                 print("2. Book a Car")
                 print("3. Calculate Rental Fee")
+                print("4. Smart Recommend Cars")  # 新增智能推荐选项
                 print("0. Logout")
 
                 choice = input("Enter your choice: ")
@@ -236,6 +255,25 @@ class CarRentalSystem:
                     fee = self.calculate_rental_fee(car_id, start_date, end_date)
                     if fee is not None:
                         print(f"Total rental fee: ${fee}")
+                elif choice == '4':  # 处理智能推荐
+                    year = input("Enter desired car year (or press Enter to skip): ")
+                    mileage = input("Enter maximum car mileage (or press Enter to skip): ")
+                    start_date = input("Enter start date (YYYY-MM-DD): ")
+                    end_date = input("Enter end date (YYYY-MM-DD): ")
+                    recommended_cars = self.recommend_cars(year, mileage, start_date, end_date)
+                    if recommended_cars:
+                        print("Recommended Cars:")
+                        for i, car in enumerate(recommended_cars):
+                            print(f"{i + 1}. {car}")
+                        car_index = input("Enter the number of the car to book (or press Enter to skip): ")
+                        if car_index:
+                            try:
+                                selected_car = recommended_cars[int(car_index) - 1]
+                                self.book_car(user, selected_car.car_id, start_date, end_date)
+                            except (ValueError, IndexError):
+                                print("Invalid car selection.")
+                    else:
+                        print("No cars match your criteria.")
                 elif choice == '0':
                     print("Logging out.")
                     break
