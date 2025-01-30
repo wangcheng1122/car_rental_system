@@ -5,6 +5,7 @@ from models.car import Car
 from models.booking import Booking
 from database.database_manager import DatabaseManager
 
+
 class CarRentalSystem:
 
     def __init__(self):
@@ -61,7 +62,8 @@ class CarRentalSystem:
         self.save_data()
         print("Car added successfully.")
 
-    def update_car(self, car_id, make=None, model=None, year=None, mileage=None, available=None, min_rent_period=None, max_rent_period=None):
+    def update_car(self, car_id, make=None, model=None, year=None, mileage=None, available=None, min_rent_period=None,
+                   max_rent_period=None):
         car = next((car for car in self.cars if car.car_id == car_id), None)
         if car:
             if make: car.make = make
@@ -150,7 +152,8 @@ class CarRentalSystem:
             if booking.status == "Pending":
                 print(booking)
 
-        booking_id = input("Enter booking ID to approve or reject (or 'skip' to skip) (It's recommended to copy and paste the ID): ")
+        booking_id = input(
+            "Enter booking ID to approve or reject (or 'skip' to skip) (It's recommended to copy and paste the ID): ")
         if booking_id.lower() == "skip":
             return
 
@@ -174,34 +177,38 @@ class CarRentalSystem:
         self.save_data()
 
     def run(self):
-        while True:
-            print("\nCar Rental System Menu:")
-            print("1. Register User")
-            print("2. Login User")
-            print("0. Exit")
+        try:
+            while True:
+                print("\nCar Rental System Menu:")
+                print("1. Register User")
+                print("2. Login User")
+                print("0. Exit")
 
-            choice = input("Enter your choice: ")
+                choice = input("Enter your choice: ")
 
-            if choice == '1':
-                username = input("Enter username: ")
-                password = input("Enter password: ")
-                role = input("Enter role (customer/admin): ").lower()
-                self.register_user(username, password, role)
+                if choice == '1':
+                    username = input("Enter username: ")
+                    password = input("Enter password: ")
+                    role = input("Enter role (customer/admin): ").lower()
+                    self.register_user(username, password, role)
 
-            elif choice == '2':
-                username = input("Enter username: ")
-                password = input("Enter password: ")
-                user = self.login_user(username, password)
-                if user:
-                    self.user_menu(user)
+                elif choice == '2':
+                    username = input("Enter username: ")
+                    password = input("Enter password: ")
+                    user = self.login_user(username, password)
+                    if user:
+                        self.user_menu(user)
 
-            elif choice == '0':
-                print("Exiting Car Rental System.")
-                self.db_manager.close()
-                break
+                elif choice == '0':
+                    print("Exiting Car Rental System.")
+                    self.db_manager.close()
+                    break
 
-            else:
-                print("Invalid choice. Please try again.")
+                else:
+                    print("Invalid choice. Please try again.")
+        except KeyboardInterrupt:
+            print("\nProgram interrupted by user.")
+            self.db_manager.close()  # 确保在中断时关闭数据库连接
 
     def user_menu(self, user):
         while True:
