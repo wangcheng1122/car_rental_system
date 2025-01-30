@@ -102,6 +102,11 @@ class CarRentalSystem:
             print("End date must be after start date.")
             return
 
+        # 新增检查：开始日期是否在未来
+        if start_date < datetime.date.today():
+            print("Start date cannot be in the past.")
+            return
+
         car = next((car for car in self.cars if car.car_id == car_id and car.available), None)
         if not car:
             print("Car not found or not available.")
