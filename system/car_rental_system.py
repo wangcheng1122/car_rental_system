@@ -215,8 +215,10 @@ class CarRentalSystem:
                     password = input("Enter password: ")
                     user = self.login_user(username, password)
                     if user:
+                        # 进入用户菜单，并等待用户退出
                         self.user_menu(user)
-                        continue  # 关键：登录成功并从 user_menu 返回后，跳到下一次循环
+                        # 用户退出后，回到主菜单
+                        continue  # 继续主循环，允许用户重新登录
 
                 elif choice == '0':
                     print("Exiting Car Rental System.")
@@ -227,7 +229,7 @@ class CarRentalSystem:
                     print("Invalid choice. Please try again.")
         except KeyboardInterrupt:
             print("\nProgram interrupted by user.")
-            self.db_manager.close()  # 确保在中断时关闭数据库连接
+            self.db_manager.close()
 
     def user_menu(self, user):
         while True:
@@ -258,7 +260,7 @@ class CarRentalSystem:
                         print(f"Total rental fee: ${fee}")
                 elif choice == '4':  # 处理智能推荐
                     year = input("Enter desired car year (or press Enter to skip): ")
-                    mileage = input("Enter maximum car mileage (or press Enter to skip, unit: km): ")
+                    mileage = input("Enter maximum car mileage (or press Enter to skip): ")
                     start_date = input("Enter start date (YYYY-MM-DD): ")
                     end_date = input("Enter end date (YYYY-MM-DD): ")
                     recommended_cars = self.recommend_cars(year, mileage, start_date, end_date)
@@ -266,17 +268,62 @@ class CarRentalSystem:
                         print("Recommended Cars:")
                         for i, car in enumerate(recommended_cars):
                             print(f"{i + 1}. {car}")
-                        car_id_input = input("Enter the car ID to book (or press Enter to skip): ")
-                        if car_id_input:
-                            selected_car = next((car for car in recommended_cars if car.car_id == car_id_input), None)
-                            if selected_car:
+                        car_index = input("Enter the number of the car to book (or press Enter to skip): ")
+                        if car_index:
+                            try:
+                                selected_car = recommended_cars[int(car_index) - 1]
                                 self.book_car(user, selected_car.car_id, start_date, end_date)
-                            else:
-                                print("Invalid car ID. Please select a car from the list.")
+                            except (ValueError, IndexError):
+                                print("Invalid car selection.")
                     else:
                         print("No cars match your criteria.")
                 elif choice == '0':
                     print("Logging out.")
                     break
+                else:
+                    print("Invalid choice. Please try again.")
+
+            elif user.role == "admin":
+                print("1. Add Car")
+                print("2. Update Car")
+                print("3. Delete Car")
+                print("4. Manage Bookings")
+                print("0. Logout")
+
+                choice = input("Enter your choice: ")
+
+                if choice == '1':
+                    make = input("Enter car make: ")
+                    model = input("Enter car model: ")
+                    year = input("Enter car year: ")
+                    mileage = input("Enter car mileage: ")
+                    min_rent_period = int(input("Enter minimum rent period (days): "))
+                    max_rent_period = int(input("Enter maximum rent period (days): "))
+                    self.add_car(make, model, year, mileage, min_rent_period, max_rent_period)
+
+                elif choice == '2':
+                    car_id = input("Enter car ID to update (It's recommended to copy and paste the ID): ")
+                    make = input("Enter new make (or press Enter to skip): ")
+                    model = input("Enter new model (or press Enter to skip): ")
+                    year = input("Enter new year (or press Enter to skip): ")
+                    mileage = input("Enter new mileage (or press Enter to skip): ")
+                    available_input = input("Enter new availability (True/False, or press Enter to skip): ").lower()
+                    available = None if not available_input else available_input == 'true'
+                    min_rent_period = input("Enter new minimum rent period (or press Enter to skip): ")
+                    max_rent_period = input("Enter new maximum rent period (or press Enter to skip): ")
+                    self.update_car(car_id, make or None, model or None, year or None, mileage or None, available,
+                                    min_rent_period or None, max_rent_period or None)
+
+                elif choice == '3':
+                    car_id = input("Enter car ID to delete (It's recommended to copy and paste the ID): ")
+                    self.delete_car(car_id)
+
+                elif choice == '4':
+                    self.manage_bookings()
+
+                elif choice == '0':
+                    print("Logging out.")
+                    break
+
                 else:
                     print("Invalid choice. Please try again.")
