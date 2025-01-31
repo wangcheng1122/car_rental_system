@@ -64,15 +64,15 @@ This system is a command-line car rental system developed in Python 3, designed 
     Open a command-line terminal (Command Prompt or PowerShell for Windows users, Terminal for macOS and Linux users) and use the `cd` command to navigate to the directory containing the project files.
 
     ```bash
-    cd [your project directory]
+    cd D:\ITsoft\pythonproject\car_rental_system (Please follow your actual path.)
     ```
 
 3.  **Run the Main Program:**
 
     ```bash
-    python main.py
+    python -m src.main (important：Using the -m argument allows the Python interpreter to treat src as a package.)
     ```
-
+    
     This will launch the car rental system and display the main menu.
 
 ## Usage Instructions
