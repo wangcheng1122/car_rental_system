@@ -1,40 +1,42 @@
-import uuid  # 导入uuid模块，用于生成唯一标识符
-import datetime  # 导入datetime模块，用于处理日期和时间
-from src.models.user import User  # 从models.user模块导入User类
-from src.models.car import Car  # 从models.car模块导入Car类
-from src.models.booking import Booking  # 从models.booking模块导入Booking类
-from src.database.database_manager import DatabaseManager  # 从database.database_manager模块导入DatabaseManager类
+import uuid  # Import the uuid module for generating unique identifiers
+import datetime  # Import the datetime module for handling dates and times
+
+from src.models.user import User  # Import the User class from the models.user module
+from src.models.car import Car  # Import the Car class from the models.car module
+from src.models.booking import Booking  # Import the Booking class from the models.booking module
+from src.database.database_manager import \
+    DatabaseManager  # Import the DatabaseManager class from the database.database_manager module
 
 
 class CarRentalSystem:
     """
-    汽车租赁系统类，负责管理用户、车辆和预订，并与数据库交互。
+    Car rental system class responsible for managing users, cars, and bookings, and interacting with the database.
     """
 
     def __init__(self):
         """
-        初始化汽车租赁系统，创建用户列表、车辆列表、预订列表和数据库管理器实例，并从数据库加载数据。
+        Initialize the car rental system, create lists for users, cars, and bookings, and an instance of the database manager. Load data from the database.
         """
-        self.users = []  # 用户列表，存储User对象
-        self.cars = []  # 车辆列表，存储Car对象
-        self.bookings = []  # 预订列表，存储Booking对象
-        self.db_manager = DatabaseManager()  # 数据库管理器实例
-        self.load_data()  # 从数据库加载数据
+        self.users = []  # List of users, storing User objects
+        self.cars = []  # List of cars, storing Car objects
+        self.bookings = []  # List of bookings, storing Booking objects
+        self.db_manager = DatabaseManager()  # Instance of the database manager
+        self.load_data()  # Load data from the database
 
     def load_data(self):
         """
-        从数据库加载用户、车辆和预订数据。
+        Load user, car, and booking data from the database.
         """
-        # 加载用户数据
+        # Load user data
         user_data = self.db_manager.load_users()
         self.users = [User(username, password, role) for username, password, role in user_data]
 
-        # 加载车辆数据
+        # Load car data
         car_data = self.db_manager.load_cars()
         self.cars = [Car(car_id, make, model, year, mileage, available, min_rent_period, max_rent_period)
                      for car_id, make, model, year, mileage, available, min_rent_period, max_rent_period in car_data]
 
-        # 加载预订数据
+        # Load booking data
         booking_data = self.db_manager.load_bookings()
         self.bookings = [
             Booking(booking_id, customer_username, car_id, datetime.datetime.strptime(start_date, "%Y-%m-%d").date(),
@@ -44,7 +46,7 @@ class CarRentalSystem:
 
     def save_data(self):
         """
-        将用户、车辆和预订数据保存到数据库。
+        Save user, car, and booking data to the database.
         """
         self.db_manager.save_users(self.users)
         self.db_manager.save_cars(self.cars)
@@ -52,15 +54,15 @@ class CarRentalSystem:
 
     def register_user(self, username, password, role):
         """
-        注册新用户。
+        Register a new user.
 
         Args:
-            username: 用户名
-            password: 密码
-            role: 角色 (customer/admin)
+            username: Username
+            password: Password
+            role: Role (customer/admin)
 
         Returns:
-            如果注册成功返回True，如果用户名已存在返回False。
+            True if registration is successful, False if the username already exists.
         """
         if any(user.username == username for user in self.users):
             print("Username already exists.")
@@ -73,14 +75,14 @@ class CarRentalSystem:
 
     def login_user(self, username, password):
         """
-        用户登录。
+        User login.
 
         Args:
-            username: 用户名
-            password: 密码
+            username: Username
+            password: Password
 
         Returns:
-            如果用户名和密码匹配，返回User对象，否则返回None。
+            User object if the username and password match, otherwise None.
         """
         user = next((user for user in self.users if user.username == username and user.password == password), None)
         if user:
@@ -90,17 +92,17 @@ class CarRentalSystem:
 
     def add_car(self, make, model, year, mileage, min_rent_period, max_rent_period):
         """
-        添加新车辆。
+        Add a new car.
 
         Args:
-            make: 制造商
-            model: 型号
-            year: 生产年份
-            mileage: 里程（单位：km）
-            min_rent_period: 最小租赁期限（天）
-            max_rent_period: 最大租赁期限（天）
+            make: Manufacturer
+            model: Model
+            year: Production year
+            mileage: Mileage (in km)
+            min_rent_period: Minimum rental period (days)
+            max_rent_period: Maximum rental period (days)
         """
-        car_id = str(uuid.uuid4())  # 生成唯一的车辆ID
+        car_id = str(uuid.uuid4())  # Generate a unique car ID
         car = Car(car_id, make, model, year, mileage, True, min_rent_period, max_rent_period)
         self.cars.append(car)
         self.save_data()
@@ -109,17 +111,17 @@ class CarRentalSystem:
     def update_car(self, car_id, make=None, model=None, year=None, mileage=None, available=None, min_rent_period=None,
                    max_rent_period=None):
         """
-        更新车辆信息。
+        Update car information.
 
         Args:
-            car_id: 要更新的车辆ID
-            make: 新的制造商（可选）
-            model: 新的型号（可选）
-            year: 新的生产年份（可选）
-            mileage: 新的里程（可选）
-            available: 新的可用状态（可选）
-            min_rent_period: 新的最小租赁期限（可选）
-            max_rent_period: 新的最大租赁期限（可选）
+            car_id: ID of the car to update
+            make: New manufacturer (optional)
+            model: New model (optional)
+            year: New production year (optional)
+            mileage: New mileage (optional)
+            available: New availability status (optional)
+            min_rent_period: New minimum rental period (optional)
+            max_rent_period: New maximum rental period (optional)
         """
         car = next((car for car in self.cars if car.car_id == car_id), None)
         if car:
@@ -137,12 +139,12 @@ class CarRentalSystem:
 
     def delete_car(self, car_id):
         """
-        删除车辆。
+        Delete a car.
 
         Args:
-            car_id: 要删除的车辆ID
+            car_id: ID of the car to delete
         """
-        # 检查车辆是否存在
+        # Check if the car exists
         car_to_delete = next((car for car in self.cars if car.car_id == car_id), None)
         if car_to_delete:
             self.cars = [car for car in self.cars if car.car_id != car_id]
@@ -153,7 +155,7 @@ class CarRentalSystem:
 
     def view_available_cars(self):
         """
-        查看所有可用车辆。
+        View all available cars.
         """
         available_cars = [car for car in self.cars if car.available]
         if available_cars:
@@ -165,13 +167,13 @@ class CarRentalSystem:
 
     def book_car(self, customer, car_id, start_date_str, end_date_str):
         """
-        预订车辆。
+        Book a car.
 
         Args:
-            customer: 预订车辆的客户 (User对象)
-            car_id: 要预订的车辆ID
-            start_date_str: 预订开始日期 (YYYY-MM-DD)
-            end_date_str: 预订结束日期 (YYYY-MM-DD)
+            customer: Customer booking the car (User object)
+            car_id: ID of the car to book
+            start_date_str: Booking start date (YYYY-MM-DD)
+            end_date_str: Booking end date (YYYY-MM-DD)
         """
         try:
             start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d").date()
@@ -184,7 +186,7 @@ class CarRentalSystem:
             print("End date must be after start date.")
             return
 
-        # 检查开始日期是否在过去
+        # Check if the start date is in the past
         if start_date < datetime.date.today():
             print("Start date cannot be in the past.")
             return
@@ -198,7 +200,7 @@ class CarRentalSystem:
             print(f"Rental period must be between {car.min_rent_period} and {car.max_rent_period} days.")
             return
 
-        booking_id = str(uuid.uuid4())  # 生成唯一的预订ID
+        booking_id = str(uuid.uuid4())  # Generate a unique booking ID
         booking = Booking(booking_id, customer.username, car_id, start_date, end_date)
         self.bookings.append(booking)
         self.save_data()
@@ -206,15 +208,15 @@ class CarRentalSystem:
 
     def calculate_rental_fee(self, car_id, start_date_str, end_date_str):
         """
-        计算租赁费用。
+        Calculate rental fee.
 
         Args:
-            car_id: 要计算费用的车辆ID
-            start_date_str: 租赁开始日期 (YYYY-MM-DD)
-            end_date_str: 租赁结束日期 (YYYY-MM-DD)
+            car_id: ID of the car to calculate the fee for
+            start_date_str: Rental start date (YYYY-MM-DD)
+            end_date_str: Rental end date (YYYY-MM-DD)
 
         Returns:
-            租赁费用，如果车辆未找到或日期格式无效，返回None。
+            Rental fee, or None if the car is not found or the date format is invalid.
         """
         try:
             start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d").date()
@@ -229,25 +231,24 @@ class CarRentalSystem:
             return None
 
         rental_days = (end_date - start_date).days
-        daily_rate = 50  # 示例每日租金
-        total_fee = daily_rate * rental_days
+        if rental_days < car.min_rent_period or rental_days > car.max_rent_period:
+            print(f"Rental period must be between {car.min_rent_period} and {car.max_rent_period} days.")
+            return None
+
+        # Assuming a fixed rate per day for simplicity
+        rate_per_day = 50  # Example rate
+        total_fee = rental_days * rate_per_day
         return total_fee
 
     def manage_bookings(self):
         """
-        管理预订（管理员功能）。允许管理员批准或拒绝待处理的预订。
+        Manage bookings by approving or rejecting them.
         """
-        if not self.bookings:
-            print("No bookings found.")
-            return
-
-        print("Pending Bookings:")
+        print("Manage Bookings:")
         for booking in self.bookings:
-            if booking.status == "Pending":
-                print(booking)
+            print(booking)
 
-        booking_id = input(
-            "Enter booking ID to approve or reject (It's recommended to copy and paste the ID): ")
+        booking_id = input("Enter booking ID to manage (It's recommended to copy and paste the ID): ")
 
         booking = next((booking for booking in self.bookings if booking.booking_id == booking_id), None)
         if not booking:
@@ -257,9 +258,9 @@ class CarRentalSystem:
         action = input("Approve or Reject? (a/r): ").lower()
         if action == 'a':
             booking.status = "Approved"
-            car = booking.get_car(self)  # 获取预订关联的车辆
+            car = booking.get_car(self)  # Get the car associated with the booking
             if car:
-                car.available = False  # 将车辆设置为不可用
+                car.available = False  # Set the car to unavailable
             print("Booking approved.")
         elif action == 'r':
             booking.status = "Rejected"
@@ -270,16 +271,16 @@ class CarRentalSystem:
 
     def recommend_cars(self, year, mileage, start_date_str, end_date_str):
         """
-        根据年份、里程和租赁日期推荐车辆。
+        Recommend cars based on year, mileage, and rental dates.
 
         Args:
-            year: 期望的车辆年份（可选）
-            mileage: 最大里程（可选）
-            start_date_str: 租赁开始日期 (YYYY-MM-DD)
-            end_date_str: 租赁结束日期 (YYYY-MM-DD)
+            year: Desired car year (optional)
+            mileage: Maximum mileage (optional)
+            start_date_str: Rental start date (YYYY-MM-DD)
+            end_date_str: Rental end date (YYYY-MM-DD)
 
         Returns:
-            符合条件的车辆列表。
+            List of cars that match the criteria.
         """
         try:
             start_date = datetime.datetime.strptime(start_date_str, "%Y-%m-%d").date()
@@ -290,11 +291,11 @@ class CarRentalSystem:
 
         rental_days = (end_date - start_date).days
 
-        # 检查 year 是否为空字符串，如果是，则将其设置为 None
+        # Check if year is an empty string, if so, set it to None
         if year == "":
             year = None
 
-        # 检查 mileage 是否为空字符串，如果是，则将其设置为 None
+        # Check if mileage is an empty string, if so, set it to None
         if mileage == "":
             mileage = None
 
@@ -309,7 +310,7 @@ class CarRentalSystem:
 
     def view_all_cars(self):
         """
-        查看所有车辆，包括可用和不可用的。
+        View all cars, including available and unavailable ones.
         """
         if self.cars:
             print("All Cars:")
@@ -320,7 +321,7 @@ class CarRentalSystem:
 
     def run(self):
         """
-        运行汽车租赁系统的主循环。
+        Run the main loop of the car rental system.
         """
         try:
             while True:
@@ -342,38 +343,38 @@ class CarRentalSystem:
                     password = input("Enter password: ")
                     user = self.login_user(username, password)
                     if user:
-                        # 进入用户菜单，并等待用户退出
+                        # Enter the user menu and wait for the user to exit
                         self.user_menu(user)
-                        # 用户退出后，回到主菜单
-                        continue  # 继续主循环，允许用户重新登录
+                        # After the user exits, return to the main menu
+                        continue  # Continue the main loop, allowing the user to log in again
 
                 elif choice == '0':
                     print("Exiting Car Rental System.")
-                    self.db_manager.close()  # 关闭数据库连接
+                    self.db_manager.close()  # Close the database connection
                     break
 
                 else:
                     print("Invalid choice. Please try again.")
         except KeyboardInterrupt:
             print("\nProgram interrupted by user.")
-            self.db_manager.close()  # 确保在程序被中断时关闭数据库连接
+            self.db_manager.close()  # Ensure the database connection is closed when the program is interrupted
 
     def user_menu(self, user):
         """
-        用户菜单（根据用户角色显示不同的选项）。
+        User menu (display different options based on user role).
 
         Args:
-            user: 当前登录的用户 (User对象)
+            user: Currently logged-in user (User object)
         """
         while True:
             print(f"\nWelcome, {user.username} ({user.role})")
 
             if user.role == "customer":
-                # 客户菜单
+                # Customer menu
                 print("1. View Available Cars")
                 print("2. Book a Car")
                 print("3. Calculate Rental Fee")
-                print("4. Smart Recommend Cars")  # 智能推荐选项
+                print("4. Smart Recommend Cars")  # Smart recommendation option
                 print("0. Logout")
 
                 choice = input("Enter your choice: ")
@@ -392,7 +393,7 @@ class CarRentalSystem:
                     fee = self.calculate_rental_fee(car_id, start_date, end_date)
                     if fee is not None:
                         print(f"Total rental fee: ${fee}")
-                elif choice == '4':  # 处理智能推荐
+                elif choice == '4':  # Handle smart recommendation
                     year = input("Enter desired car year (or press Enter to skip): ")
                     mileage = input("Enter maximum car mileage (or press Enter to skip): ")
                     start_date = input("Enter start date (YYYY-MM-DD): ")
@@ -413,7 +414,7 @@ class CarRentalSystem:
                         print("No cars match your criteria.")
                 elif choice == '0':
                     print("Logging out.")
-                    break  # 退出用户菜单
+                    break  # Exit the user menu
                 else:
                     print("Invalid choice. Please try again.")
 
@@ -422,7 +423,7 @@ class CarRentalSystem:
                 print("2. Update Car")
                 print("3. Delete Car")
                 print("4. Manage Bookings")
-                print("5. View All Cars")  # 添加查看所有车辆的选项
+                print("5. View All Cars")  # Add option to view all cars
                 print("0. Logout")
 
                 choice = input("Enter your choice: ")
@@ -456,7 +457,7 @@ class CarRentalSystem:
                 elif choice == '4':
                     self.manage_bookings()
 
-                elif choice == '5':  # 处理查看所有车辆的选项
+                elif choice == '5':  # Handle view all cars option
                     self.view_all_cars()
 
                 elif choice == '0':

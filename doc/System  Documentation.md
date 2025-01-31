@@ -1,12 +1,15 @@
 # System Design
 
 ## Class Diagram
+
 ![Class Diagram](./Diagram/Class%20Diagram.png)
 
-### Use Case Diagram
+## Use Case Diagram
+
 ![Use Case Diagram](./Diagram/Use%20Case%20Diagram.png)
 
-### Sequence Diagram
+## Sequence Diagram
+
 ![Sequence Diagram](./Diagram/Sequence%20Diagram.png)
 
 # Design Patterns
@@ -38,54 +41,54 @@ The innovation in this car rental system is primarily reflected in the "Smart Re
 Specifically, the system implements this feature through the `recommend_cars` method. When a user selects the "Smart Vehicle Recommendation" option, the system prompts the user to input their desired vehicle year, maximum mileage, and rental start and end dates. The system then filters the available vehicles based on these criteria and presents them to the user in a sorted manner (e.g., by price, model, etc.).
 
 This innovation not only enhances the user experience by enabling users to find vehicles that meet their needs more quickly and accurately but also provides additional marketing opportunities for the car rental company. The system can recommend relevant vehicles based on user preferences, thereby increasing rental rates.
-# 软件演化 (Software Evolution)
 
-## 1. 维护 (Maintenance)
+# Software Evolution
 
-在开发和部署本汽车租赁系统后，系统可能会遇到各种问题或需要根据用户反馈进行功能扩展。为了保证系统的持续运行和优化，必须进行定期的维护工作。以下是本系统维护的几个关键点：
+## Maintenance
 
-- **错误修复**：在系统运行过程中，可能会发现一些错误或缺陷（bug）。这些问题会影响系统的稳定性或用户体验。因此，我们需要定期审查系统的日志文件，修复已知的 bug，并进行测试以确保修复后的功能正常运行。
-  
-- **功能增强**：根据用户需求或市场变化，可能需要添加新的功能。例如，未来可以加入更多的智能推荐算法，或允许客户选择不同的支付方式。每当增加新功能时，我们会确保新功能的代码与现有功能兼容，并进行必要的回归测试。
+After the development and deployment of this car rental system, the system may encounter various issues or require functional extensions based on user feedback. To ensure the continuous operation and optimization of the system, regular maintenance work must be carried out. Here are some key points for maintaining this system:
 
-- **性能优化**：随着系统数据量的增长，可能需要对数据库查询、车辆推荐等操作进行性能优化。这可能包括数据库索引的优化，或者改进某些算法的效率。
+- **Bug Fixing**: During system operation, some errors or defects (bugs) may be found. These issues can affect system stability or user experience. Therefore, we need to periodically review the system's log files, fix known bugs, and conduct tests to ensure that the repaired functions are working correctly.
 
-- **系统安全**：定期检查和更新系统的安全性，确保用户数据的安全性以及防止潜在的网络攻击。对密码管理、数据加密等方面进行定期审核和更新。
+- **Feature Enhancement**: Based on user needs or market changes, it may be necessary to add new features. For example, more intelligent recommendation algorithms could be added in the future, or customers could be allowed to choose different payment methods. Whenever new features are added, we will ensure that the code for the new features is compatible with existing functions and conduct necessary regression testing.
 
-## 2. 版本控制 (Versioning)
+- **Performance Optimization**: As the amount of system data grows, it may be necessary to optimize the performance of database queries, vehicle recommendations, and other operations. This may include optimizing database indexes or improving the efficiency of certain algorithms.
 
-本项目采用 Git 进行版本控制，确保代码在开发过程中得到有效管理和跟踪。Git 版本控制可以帮助团队在开发过程中避免代码冲突，记录每次提交的变更，并方便回滚到先前的版本。
+- **System Security**: Regularly check and update the system's security to ensure the security of user data and prevent potential cyberattacks. Conduct regular audits and updates on password management and data encryption.
 
-- **版本发布**：每当完成一个重要的功能模块或修复一个重大 bug 时，我们会创建一个新的 Git 标签（tag），标记当前的版本。版本命名遵循语义化版本控制（SemVer）规则，格式为 `vX.Y.Z`，其中：
-  - `X` 表示主版本号，增加时表示有重大变更，不兼容旧版本。
-  - `Y` 表示次版本号，增加时表示向后兼容的新功能。
-  - `Z` 表示修订号，增加时表示向后兼容的 bug 修复。
+## Versioning
 
-- **分支管理**：我们采用 Git Flow 工作流进行分支管理。主要分支有：
-  - `main`：用于发布稳定的生产版本，所有发布的代码都会合并到此分支。
-  - `develop`：用于开发中的代码，所有新特性都会先合并到此分支。
-  - `feature/`：用于开发新特性的临时分支，每个功能开发时会从 `develop` 分支创建一个新的 feature 分支，开发完成后合并回 `develop`。
-  - `bugfix/`：用于修复 bug 的临时分支，修复完成后合并回 `develop`。
-  - `release/`：用于准备发布的分支，通常会进行最终的测试和修复，然后合并到 `main` 和 `develop`。
-  - `hotfix/`：用于修复生产环境中的紧急问题，修复完成后会合并到 `main` 和 `develop`。
+This project uses Git for version control to ensure that code is effectively managed and tracked during development. Git version control can help the team avoid code conflicts during development, record changes for each commit, and easily roll back to previous versions.
 
-- **提交规范**：每次提交都应该简洁明了地说明此次提交的目的，遵循类似以下的格式：
-  - `feat: 添加车辆预订功能`
-  - `fix: 修复了车辆推荐算法的 bug`
-  - `docs: 更新 README 文件`
-  - `chore: 更新依赖包`
+- **Version Release**: Whenever an important functional module is completed or a major bug is fixed, we will create a new Git tag to mark the current version. Version naming follows the Semantic Versioning (SemVer) rules, with the format `vX.Y.Z`, where:
+    - `X` represents the major version number, which increases when there are major changes that are not compatible with the old version.
+    - `Y` represents the minor version number, which increases when new backward-compatible features are added.
+    - `Z` represents the patch version number, which increases when backward-compatible bug fixes are made.
 
-## 3. 兼容性 (Compatibility)
+- **Branch Management**: We use the Git Flow workflow for branch management. The main branches are:
+    - `main`: Used to release stable production versions. All released code is merged into this branch.
+    - `develop`: Used for code under development. All new features are first merged into this branch.
+    - `feature/`: Used for temporary branches for developing new features. A new feature branch is created from the `develop` branch for each feature development, and after development is completed, it is merged back into `develop`.
+    - `bugfix/`: Used for temporary branches for fixing bugs. After the fix is completed, it is merged back into `develop`.
+    - `release/`: Used for branches preparing for release. Usually, final testing and fixes are performed, and then it is merged into `main` and `develop`.
+    - `hotfix/`: Used for fixing urgent issues in the production environment. After the fix is completed, it is merged into `main` and `develop`.
 
-随着时间的推移，系统可能会遇到与操作系统、数据库或其他外部工具的兼容性问题。为了确保系统在不同环境下的可用性和稳定性，需要考虑以下几个方面：
+- **Commit Conventions**: Each commit should clearly and concisely state the purpose of the commit, following a format similar to the following:
+    - `feat: Add vehicle booking feature`
+    - `fix: Fixed a bug in the vehicle recommendation algorithm`
+    - `docs: Update README file`
+    - `chore: Update dependency packages`
 
-- **操作系统兼容性**：目前本系统支持 Windows、macOS 和 Linux 操作系统。我们确保系统在这些操作系统下的运行正常，尤其是在文件路径、权限管理、环境变量等方面的兼容性。
+## Compatibility
 
-- **数据库兼容性**：本系统使用 SQLite 作为数据库，SQLite 是一个轻量级的数据库引擎，能够在大多数操作系统中运行。我们确保在不同版本的 SQLite 中，数据操作功能保持一致。同时，未来可以考虑迁移到其他数据库系统（如 MySQL 或 PostgreSQL），以便支持更高并发的数据访问。
+Over time, the system may encounter compatibility issues with operating systems, databases, or other external tools. To ensure the availability and stability of the system in different environments, the following aspects need to be considered:
 
-- **Python 版本兼容性**：本系统要求 Python 3.6 或更高版本。在不同的 Python 版本中，我们确保系统的兼容性，避免由于语言版本更新导致的代码不兼容问题。如果需要支持更低版本的 Python，可能需要对某些新特性（如 f-string、异步操作等）进行降级处理。
+- **Operating System Compatibility**: Currently, this system supports Windows, macOS, and Linux operating systems. We ensure that the system runs normally under these operating systems, especially in terms of file paths, permission management, and environment variable compatibility.
 
-- **第三方库兼容性**：目前该系统没有依赖第三方库，只使用了 Python 标准库。将来，如果需要使用其他库或框架（例如 Flask 或 Django），我们需要确保其与当前系统的兼容性，避免产生不必要的依赖冲突。
+- **Database Compatibility**: This system uses SQLite as the database. SQLite is a lightweight database engine that can run on most operating systems. We ensure that data operation functions remain consistent across different versions of SQLite. At the same time, we may consider migrating to other database systems (such as MySQL or PostgreSQL) in the future to support higher concurrent data access.
 
-通过这些措施，我们确保系统的长期稳定性和跨平台的兼容性，为用户提供可靠的服务。
+- **Python Version Compatibility**: This system requires Python 3.6 or higher. We ensure the compatibility of the system in different Python versions, avoiding code incompatibility issues caused by language version updates. If it is necessary to support lower versions of Python, it may be necessary to downgrade some new features (such as f-strings, asynchronous operations, etc.).
 
+- **Third-Party Library Compatibility**: Currently, this system does not depend on third-party libraries and only uses the Python standard library. In the future, if it is necessary to use other libraries or frameworks (such as Flask or Django), we need to ensure their compatibility with the current system to avoid unnecessary dependency conflicts.
+
+Through these measures, we ensure the long-term stability and cross-platform compatibility of the system, providing reliable services to users.
