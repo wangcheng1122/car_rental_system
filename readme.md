@@ -109,24 +109,24 @@ This system is a command-line car rental system developed in Python 3, designed 
 # Project Directory Structure
 
     car_rental_system/
-    ├── .venv/                     # Virtual environment directory
-    ├── doc/                       # Documentation directory
-    │   ├── Class Diagram.png      # Class diagram
-    │   ├── Sequence Diagram.png    # Sequence diagram
-    │   ├── System Documentation.md  # System documentation
-    │   └── Use Case Diagram.png    # Use case diagram
-    ├── database/                  # Database directory
-    │   ├── car_rental.db          # SQLite database file
-    │   └── database_manager.py     # Database management class
-    ├── models/                    # Data models module
-    │   ├── booking.py             # Booking class
-    │   ├── car.py                 # Car class
-    │   └── user.py                # User class
-    ├── src/                       # Source code directory
-    │   ├── main.py                # Main program entry point
-    │   └── ...                    # Other source code files
-    ├── README.md                  # README file
-    └── requirements.txt           # Dependencies file
+    ├── .venv/                        # Virtual environment directory
+    ├── doc/                          # Documentation directory
+    │   ├── Class Diagram.png         # Class diagram
+    │   ├── Sequence Diagram.png      # Sequence diagram
+    │   ├── System Documentation.md   # System documentation
+    │   └── Use Case Diagram.png      # Use case diagram
+    ├── database/                     # Database directory
+    │   ├── car_rental.db             # SQLite database file
+    │   └── database_manager.py       # Database management class
+    ├── models/                       # Data models module
+    │   ├── booking.py                # Booking class
+    │   ├── car.py                    # Car class
+    │   └── user.py                   # User class
+    ├── src/                          # Source code directory
+    │   ├── main.py                   # Main program entry point
+    │   └── ...                       # Other source code files
+    ├── README.md                     # README file
+    └── requirements.txt              # Dependencies file
 
 
 
