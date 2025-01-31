@@ -1,9 +1,9 @@
 import uuid  # 导入uuid模块，用于生成唯一标识符
 import datetime  # 导入datetime模块，用于处理日期和时间
-from models.user import User  # 从models.user模块导入User类
-from models.car import Car  # 从models.car模块导入Car类
-from models.booking import Booking  # 从models.booking模块导入Booking类
-from database.database_manager import DatabaseManager  # 从database.database_manager模块导入DatabaseManager类
+from src.models.user import User  # 从models.user模块导入User类
+from src.models.car import Car  # 从models.car模块导入Car类
+from src.models.booking import Booking  # 从models.booking模块导入Booking类
+from src.database.database_manager import DatabaseManager  # 从database.database_manager模块导入DatabaseManager类
 
 
 class CarRentalSystem:
