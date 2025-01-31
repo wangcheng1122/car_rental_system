@@ -289,6 +289,15 @@ class CarRentalSystem:
             return []
 
         rental_days = (end_date - start_date).days
+
+        # 检查 year 是否为空字符串，如果是，则将其设置为 None
+        if year == "":
+            year = None
+
+        # 检查 mileage 是否为空字符串，如果是，则将其设置为 None
+        if mileage == "":
+            mileage = None
+
         recommended_cars = [
             car for car in self.cars
             if car.available and
