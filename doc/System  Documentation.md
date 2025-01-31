@@ -1,15 +1,15 @@
 # System Design
 
 ## Class Diagram
-
+This diagram shows the class diagram of a car rental system, which mainly consists of four classes: CarRentalSystem, User, Car, and Booking. The CarRentalSystem class is the core of the system. It is responsible for managing user, car, and booking information, and interacting with the DatabaseManager class for data. The User class represents the users in the system, the Car class contains detailed information about cars, and the Booking class records the relevant information of each car rental. The various classes are interconnected through one - to - many and one - to - one relationships, forming a complete car rental management system.
 ![Class Diagram](./Diagram/Class%20Diagram.png)
 
 ## Use Case Diagram
-
+This diagram shows the use case diagram of the car rental system, which mainly involves two types of users: customers and administrators. Customers can perform operations such as viewing available cars, booking cars, calculating rental fees, getting intelligent car recommendations, and registering. Administrators, on the other hand, have higher privileges. They can log in to the system, add, update, and delete car information, as well as manage bookings. Through these use cases, the system can meet the needs of different users and provide comprehensive car rental services.
 ![Use Case Diagram](./Diagram/Use%20Case%20Diagram.png)
 
 ## Sequence Diagram
-
+This diagram is the main sequence diagram of the car rental system, demonstrating the interaction process between users and the system. After logging in, users can select different menu options according to their roles (customers or administrators). Customers can view available vehicles, reserve vehicles, calculate rental fees, and get intelligent vehicle recommendations. Administrators can add, update, and delete vehicle information, as well as manage reservations. The system interacts with the database to process user requests and return results.
 ![Sequence Diagram](./Diagram/Sequence%20Diagram.png)
 
 # Design Patterns

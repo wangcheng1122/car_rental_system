@@ -59,15 +59,23 @@ This system is a command-line car rental system developed in Python 3, designed 
 
 1.  **Obtain Project Files:**
     Place the project files (including `main.py`, the `models` folder, the `database` folder, and the `data` folder) in a directory on your local computer.
-
 2.  **Navigate to Project Directory:**
     Open a command-line terminal (Command Prompt or PowerShell for Windows users, Terminal for macOS and Linux users) and use the `cd` command to navigate to the directory containing the project files.
 
     ```bash
     cd D:\ITsoft\pythonproject\car_rental_system (Please follow your actual path.)
     ```
-
-3.  **Run the Main Program:**
+3.  **(Optional) Create and activate a virtual environment  :**
+    ```bash
+    python -m venv myenv  # Create a virtual environment (if venv is not installed, install it first: pip install virtualenv)
+    source myenv/bin/activate  # Activate virtual environment (Linux/macOS)
+    myenv\Scripts\activate  # Activate virtual environment (Windows)
+    ```
+4. **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+5.  **Run the Main Program:**
 
     ```bash
     python -m src.main (important：Using the -m argument allows the Python interpreter to treat src as a package.)
