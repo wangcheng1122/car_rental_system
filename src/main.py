@@ -1,5 +1,6 @@
 from src.system.car_rental_system import CarRentalSystem
 
+
 def display_welcome_banner():
     print(r"  ____        _   _       _       ")
     print(r" |  _ \      | | | |     | |      ")

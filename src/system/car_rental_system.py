@@ -1,6 +1,9 @@
 import uuid  # Import the uuid module for generating unique identifiers
 import datetime  # Import the datetime module for handling dates and times
 
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+
 from src.models.user import User  # Import the User class from the models.user module
 from src.models.car import Car  # Import the Car class from the models.car module
 from src.models.booking import Booking  # Import the Booking class from the models.booking module
@@ -67,7 +70,8 @@ class CarRentalSystem:
         if any(user.username == username for user in self.users):
             print("Username already exists.")
             return False
-        user = User(username, password, role)
+        hashed_password = self._hash_password(password)
+        user = User(username, hashed_password, role)
         self.users.append(user)
         self.save_data()
         print("User registered successfully.")
@@ -84,7 +88,10 @@ class CarRentalSystem:
         Returns:
             User object if the username and password match, otherwise None.
         """
-        user = next((user for user in self.users if user.username == username and user.password == password), None)
+        hashed_password = self._hash_password(password)
+        user = next((user for user in self.users if user.username == username and user.password == hashed_password),
+                    None)
+
         if user:
             return user
         print("Invalid username or password.")
@@ -318,6 +325,22 @@ class CarRentalSystem:
                 print(car)
         else:
             print("No cars found.")
+
+    def _hash_password(self, password):
+        """
+        Hashes the password using MD5.
+
+        Args:
+            password: The password to hash.
+
+        Returns:
+            The hexadecimal representation of the hashed password.
+        """
+        password_bytes = password.encode('utf-8')
+        hasher = hashes.Hash(hashes.MD5(), backend=default_backend())
+        hasher.update(password_bytes)
+        hashed_password = hasher.finalize()
+        return hashed_password.hex()
 
     def run(self):
         """
