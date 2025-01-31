@@ -5,13 +5,13 @@ import datetime
 
 class DatabaseManager:
     def __init__(self):
-        # 获取当前脚本所在目录的绝对路径
+        # Get the absolute path of the directory containing the current script
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        # 获取 `database` 目录的绝对路径
+        # Get the absolute path of the `database` directory
         database_dir = os.path.join(current_dir, '..', 'database')
-        # 创建 `database` 目录，如果不存在
+        # Create the `database` directory if it doesn't exist
         os.makedirs(database_dir, exist_ok=True)
-        # 数据库文件路径
+        # Database file path
         self.db_path = os.path.join(database_dir, 'car_rental.db')
         self.db_connection = None
         self.db_cursor = None
